@@ -1,0 +1,23 @@
+# Gradle: local caches and build output
+.gradle/
+build/
+
+# Kotlin compiler caches
+.kotlin/
+
+# Android Studio / IntelliJ: per-user IDE state
+.idea/
+*.iml
+
+# Machine-specific config (contains the path to your Android SDK)
+local.properties
+
+# Native build output
+.externalNativeBuild/
+.cxx/
+
+# Screenshots / recordings captured from Android Studio
+captures/
+
+# macOS
+.DS_Store
