@@ -7,7 +7,7 @@ I've been doing iOS for years and wanted to finally learn Android properly, so I
 ## Plan
 
 - [x] Project setup
-- [ ] Top stories list
+- [x] Top stories list
 - [ ] Loading real data from the API
 - [ ] Story details and comments
 - [ ] Save stories for later
