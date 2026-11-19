@@ -8,7 +8,7 @@ I've been doing iOS for years and wanted to finally learn Android properly, so I
 
 - [x] Project setup
 - [x] Top stories list
-- [ ] Loading real data from the API
+- [x] Loading real data from the API
 - [ ] Story details and comments
 - [ ] Save stories for later
 - [ ] Offline support
