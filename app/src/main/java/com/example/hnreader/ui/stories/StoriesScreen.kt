@@ -13,10 +13,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -29,11 +32,9 @@ import com.example.hnreader.data.FakeStories
 import com.example.hnreader.data.Story
 import com.example.hnreader.ui.theme.HNReaderTheme
 
-/** Stateful: gets the ViewModel and observes its state. */
 @Composable
 fun StoriesRoute(
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(),
     viewModel: StoriesViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -42,22 +43,25 @@ fun StoriesRoute(
         uiState = uiState,
         onRetry = viewModel::loadStories,
         modifier = modifier,
-        contentPadding = contentPadding,
     )
 }
 
-/** Stateless: draws whatever state it's given. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoriesScreen(
     uiState: StoriesUiState,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(),
 ) {
-    when (uiState) {
-        StoriesUiState.Loading -> LoadingState(modifier.padding(contentPadding))
-        is StoriesUiState.Success -> StoriesList(uiState.stories, modifier, contentPadding)
-        is StoriesUiState.Error -> ErrorState(uiState.message, onRetry, modifier.padding(contentPadding))
+    Scaffold(
+        modifier = modifier,
+        topBar = { TopAppBar(title = { Text("Top Stories") }) },
+    ) { innerPadding ->
+        when (uiState) {
+            StoriesUiState.Loading -> LoadingState(Modifier.padding(innerPadding))
+            is StoriesUiState.Success -> StoriesList(uiState.stories, contentPadding = innerPadding)
+            is StoriesUiState.Error -> ErrorState(uiState.message, onRetry, Modifier.padding(innerPadding))
+        }
     }
 }
 
