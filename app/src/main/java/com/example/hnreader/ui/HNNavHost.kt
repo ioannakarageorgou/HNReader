@@ -7,11 +7,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.example.hnreader.ui.detail.StoryDetailScreen
 import com.example.hnreader.ui.stories.StoriesRoute
 import kotlinx.serialization.Serializable
 
 @Serializable
 data object StoriesDestination
+
+@Serializable
+data class StoryDetailDestination(val storyId: Long)
 
 @Composable
 fun HNNavHost(modifier: Modifier = Modifier) {
@@ -23,11 +28,18 @@ fun HNNavHost(modifier: Modifier = Modifier) {
         modifier = modifier,
     ) {
         composable<StoriesDestination> {
-            val context = LocalContext.current
             StoriesRoute(
                 onStoryClick = { story ->
-                    Toast.makeText(context, story.title, Toast.LENGTH_SHORT).show()
+                    navController.navigate(StoryDetailDestination(storyId = story.id))
                 },
+            )
+        }
+
+        composable<StoryDetailDestination> { backStackEntry ->
+            val destination: StoryDetailDestination = backStackEntry.toRoute()
+            StoryDetailScreen(
+                storyId = destination.storyId,
+                onBack = { navController.navigateUp() },
             )
         }
     }
