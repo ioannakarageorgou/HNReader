@@ -18,7 +18,8 @@ interface HackerNewsApi {
     companion object {
         private const val BASE_URL = "https://hacker-news.firebaseio.com/"
 
-        private val json = Json { ignoreUnknownKeys = true }
+        // internal (not private) so unit tests can decode with the exact same config
+        internal val json = Json { ignoreUnknownKeys = true }
 
         fun create(): HackerNewsApi =
             Retrofit.Builder()
