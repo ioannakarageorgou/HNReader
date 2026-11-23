@@ -1,14 +1,12 @@
 package com.example.hnreader.ui
 
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.hnreader.ui.detail.StoryDetailScreen
+import com.example.hnreader.ui.detail.StoryDetailRoute
 import com.example.hnreader.ui.stories.StoriesRoute
 import kotlinx.serialization.Serializable
 
@@ -37,7 +35,7 @@ fun HNNavHost(modifier: Modifier = Modifier) {
 
         composable<StoryDetailDestination> { backStackEntry ->
             val destination: StoryDetailDestination = backStackEntry.toRoute()
-            StoryDetailScreen(
+            StoryDetailRoute(
                 storyId = destination.storyId,
                 onBack = { navController.navigateUp() },
             )
