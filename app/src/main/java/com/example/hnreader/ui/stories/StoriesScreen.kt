@@ -34,6 +34,7 @@ import com.example.hnreader.ui.theme.HNReaderTheme
 
 @Composable
 fun StoriesRoute(
+    onStoryClick: (Story) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: StoriesViewModel = viewModel(),
 ) {
@@ -42,6 +43,7 @@ fun StoriesRoute(
     StoriesScreen(
         uiState = uiState,
         onRetry = viewModel::loadStories,
+        onStoryClick = onStoryClick,
         modifier = modifier,
     )
 }
@@ -51,6 +53,7 @@ fun StoriesRoute(
 fun StoriesScreen(
     uiState: StoriesUiState,
     onRetry: () -> Unit,
+    onStoryClick: (Story) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -59,7 +62,7 @@ fun StoriesScreen(
     ) { innerPadding ->
         when (uiState) {
             StoriesUiState.Loading -> LoadingState(Modifier.padding(innerPadding))
-            is StoriesUiState.Success -> StoriesList(uiState.stories, contentPadding = innerPadding)
+            is StoriesUiState.Success -> StoriesList(uiState.stories, onStoryClick, contentPadding = innerPadding)
             is StoriesUiState.Error -> ErrorState(uiState.message, onRetry, Modifier.padding(innerPadding))
         }
     }
@@ -68,15 +71,13 @@ fun StoriesScreen(
 @Composable
 private fun StoriesList(
     stories: List<Story>,
+    onStoryClick: (Story) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(),
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = contentPadding,
-    ) {
+    LazyColumn(modifier = modifier, contentPadding = contentPadding) {
         items(stories, key = { it.id }) { story ->
-            StoryRow(story)
+            StoryRow(story = story, onClick = { onStoryClick(story) })
             HorizontalDivider()
         }
     }
@@ -124,6 +125,7 @@ private fun StoriesSuccessPreview() {
             StoriesScreen(
                 uiState = StoriesUiState.Success(FakeStories.stories),
                 onRetry = {},
+                onStoryClick = {},
             )
         }
     }
@@ -134,7 +136,7 @@ private fun StoriesSuccessPreview() {
 private fun StoriesLoadingPreview() {
     HNReaderTheme {
         Surface {
-            StoriesScreen(uiState = StoriesUiState.Loading, onRetry = {})
+            StoriesScreen(uiState = StoriesUiState.Loading, onRetry = {}, onStoryClick = {})
         }
     }
 }
@@ -147,6 +149,7 @@ private fun StoriesErrorPreview() {
             StoriesScreen(
                 uiState = StoriesUiState.Error("Couldn't load stories. Check your connection."),
                 onRetry = {},
+                onStoryClick = {},
             )
         }
     }

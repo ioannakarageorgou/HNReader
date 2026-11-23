@@ -1,5 +1,6 @@
 package com.example.hnreader.ui.stories
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,10 +17,15 @@ import com.example.hnreader.data.Story
 import com.example.hnreader.ui.theme.HNReaderTheme
 
 @Composable
-fun StoryRow(story: Story, modifier: Modifier = Modifier) {
+fun StoryRow(
+    story: Story,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Text(
@@ -49,7 +55,7 @@ fun StoryRow(story: Story, modifier: Modifier = Modifier) {
 @Composable
 private fun StoryRowPreview() {
     HNReaderTheme {
-        StoryRow(story = FakeStories.stories.first())
+        StoryRow(story = FakeStories.stories.first(), onClick = {})
     }
 }
 
@@ -57,6 +63,6 @@ private fun StoryRowPreview() {
 @Composable
 private fun StoryRowNoUrlPreview() {
     HNReaderTheme {
-        StoryRow(story = FakeStories.stories[1])
+        StoryRow(story = FakeStories.stories[1], onClick = {})
     }
 }

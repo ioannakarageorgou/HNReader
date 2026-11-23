@@ -1,7 +1,9 @@
 package com.example.hnreader.ui
 
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,7 +23,12 @@ fun HNNavHost(modifier: Modifier = Modifier) {
         modifier = modifier,
     ) {
         composable<StoriesDestination> {
-            StoriesRoute()
+            val context = LocalContext.current
+            StoriesRoute(
+                onStoryClick = { story ->
+                    Toast.makeText(context, story.title, Toast.LENGTH_SHORT).show()
+                },
+            )
         }
     }
 }
