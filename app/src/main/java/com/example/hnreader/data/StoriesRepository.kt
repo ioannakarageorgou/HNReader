@@ -13,4 +13,6 @@ class StoriesRepository(
         ids.map { id -> async { api.getStory(id) } }
             .awaitAll()
     }
+
+    suspend fun getStory(id: Long): Story = api.getStory(id)
 }
